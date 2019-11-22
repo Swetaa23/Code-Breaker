@@ -24,6 +24,7 @@ public class CodeBreaker {
 		}
 		valid(guess, COLOURS, LENGTH);
 		findFullyCorrect(guess, colourCode);
+		findColourCorrect(guess, colourCode);
 
 
 	}
@@ -88,17 +89,18 @@ public class CodeBreaker {
 	 * @return		array of 'b' based on number of correct positions
 	 */
 	public static char[] findFullyCorrect(char[] guess, char[] colourCode) {
-		char correctPositions[] = new char[colourCode.length];
-		int j = 0;
-		for (int i = 0; i < colourCode.length; i ++) {
-			if (guess[i] == colourCode[i]) {
-				correctPositions[j] = 'b';
-				j++;
+		char correctPositions[] = new char[colourCode.length]; // new array that holds number of correct positions
+		int j = 0; // counter for correctPostions array
+		for (int i = 0; i < colourCode.length; i ++) { // goes through the guess and colour code
+			if (guess[i] == colourCode[i]) { // checks if both values at the same positions of the array are equal
+				correctPositions[j] = 'b'; // input 'b' in the correctPositions array if they are equal
+				j++; // increments counter
 			}
 		}
 		for (int i = 0; i < j; i++) {
 			System.out.print(correctPositions[i]);
 		}
+		System.out.println();
 		return correctPositions;
 	}
 	/**
@@ -108,7 +110,39 @@ public class CodeBreaker {
 	 * @param array of single characters containing randomly generated values
 	 * @return		array of values that are not in the correct positions or are not in the computer generated array
 	 */
-	public static String[] removeFullyCorrect(String[] guess, String[] colourCode) {
-		return null;
+	public static char[] removeFullyCorrect(char[] guess, char[] colourCode) {
+		char incorrectPositions[] = new char[colourCode.length]; // array for incorrect positions
+		int j = 0; // counter for incorrectPositions
+		for (int i = 0; i < guess.length; i ++) { // goes through guess and colourCode simultaneously
+			if (!(guess[i] == colourCode[i])) { // checks if the values in the same positions are not the same
+				incorrectPositions[j] = guess[i]; // stores the incorrect values in incorrectPositions
+				j++; // increments counter
+			}
+		}
+		for (int i = 0; i < j; i++) {
+			System.out.print(incorrectPositions[i]);
+		}
+		System.out.println();
+		return incorrectPositions;
+	}
+	public static char[] findColourCorrect(char[] guess, char[] colourCode) {
+		char correctColours[] = new char[colourCode.length]; // new array that hold correct colours
+		int counter = 0; // counter for correctColours array
+		char incorrectPositions[] = removeFullyCorrect(guess, colourCode); // calls removeFullyCorrect to find leftover colours that are not in the correct positions
+		
+		for (int i = 0; i < incorrectPositions.length; i ++) { // goes through the incorrect colours
+			for (int j = 0; j < colourCode.length; j++) { // goes through the colour code
+				if (colourCode[i] == incorrectPositions[j]) { // checks if the values in the guess are in the colour code
+					correctColours[counter] = 'w'; // if condition is passed then, w is added to correctColours
+					counter++; // increment the counter
+					j = colourCode.length;  // make j the length of colourCode to exit the loop, so that no repeats happen
+				}
+			}
+		}
+		for (int i = 0; i < counter; i++) {
+			System.out.print(correctColours[i]);
+		}
+		System.out.println();
+		return correctColours;
 	}
 }
