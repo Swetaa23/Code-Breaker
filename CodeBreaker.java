@@ -8,24 +8,40 @@ import java.util.Scanner;
 import java.util.Random;
 public class CodeBreaker {
 	static Scanner console = new Scanner(System.in);
-
 	public static void main(String[] args) {
 		final String COLOURS = "YGBOPR";
 		final int LENGTH = 4;
 		final int TRIES = 10; 
 		char[] colourCode = createCode(COLOURS,LENGTH);
 		
-		System.out.println("Please enter your guess of length " + LENGTH +  " using the letters " + COLOURS + ":");
-
+		/*System.out.println("Please enter your guess of length " + LENGTH +  " using the letters " + COLOURS + ":");
 		String guess1 = console.nextLine();
 		char[] guess = new char[guess1.length()];
 		for (int i = 0; i < guess1.length(); i++) {
 			guess[i] = guess1.charAt(i);
 		}
-		valid(guess, COLOURS, LENGTH);
-		findFullyCorrect(guess, colourCode);
-		findColourCorrect(guess, colourCode);
+		System.out.println();
+*/
+		//char[][] guesses = new char[TRIES][guess1.length()];
+		//char[][] clues = new char[TRIES][guess1.length()];
+		char [][] guesses = {{'Y', 'G', 'B', 'Y'}, {'B', 'B', 'B', 'B'}};
+		char[][] clues = {{ 'b', 'b', 'w', 'w'}, {'b'}};
+		System.out.print(displayGame(guesses, clues));
 
+		/*int guessCounter = 0;
+		int cluesCounter = 0;
+		while (valid(guess, COLOURS, LENGTH) && guessCounter <= 10) {
+			for (int i = 0; i < LENGTH; i ++) {
+				guesses[guessCounter][i] = guess1.charAt(i);
+			}
+			clues[cluesCounter] = findFullyCorrect(guess, colourCode);
+			
+			findColourCorrect(guess, colourCode);
+			findFullyCorrect(guess, colourCode);
+			displayGame(guesses,clues);
+			guessCounter += 1;
+			cluesCounter += 1;
+		}*/
 
 	}
 	/**
@@ -69,7 +85,7 @@ public class CodeBreaker {
 					}
 				}
 			}
-			if (correctValues == length && guess.length == length) { // if the number of correct values is equal to the length, then valid becomes true
+			if (correctValues == length) { // if the number of correct values is equal to the length, then valid becomes true
 				valid = true;
 			}  else { // if the values are not the options displayed
 				System.out.println("Please enter your guess again of length " + length +  " using the letters " + colours + ":");
@@ -97,7 +113,7 @@ public class CodeBreaker {
 				j++; // increments counter
 			}
 		}
-		for (int i = 0; i < j; i++) {
+		for (int i = 0; i < j; i++) { // DELETE LATER
 			System.out.print(correctPositions[i]);
 		}
 		System.out.println();
@@ -119,7 +135,7 @@ public class CodeBreaker {
 				j++; // increments counter
 			}
 		}
-		for (int i = 0; i < j; i++) {
+		for (int i = 0; i < j; i++) { // DELETE LATER
 			System.out.print(incorrectPositions[i]);
 		}
 		System.out.println();
@@ -135,14 +151,37 @@ public class CodeBreaker {
 				if (colourCode[i] == incorrectPositions[j]) { // checks if the values in the guess are in the colour code
 					correctColours[counter] = 'w'; // if condition is passed then, w is added to correctColours
 					counter++; // increment the counter
-					j = colourCode.length;  // make j the length of colourCode to exit the loop, so that no repeats happen
+					break;  // make j the length of colourCode to exit the loop, so that no repeats happen
 				}
 			}
 		}
-		for (int i = 0; i < counter; i++) {
+		for (int i = 0; i < counter; i++) { // DELETE LATER
 			System.out.print(correctColours[i]);
 		}
 		System.out.println();
 		return correctColours;
+	}
+	public static String displayGame(char[][] guesses, char[][] clues) {
+		String display = "Guess\tClues";
+		display += "\n************************\n";
+		for (int j = 0; j < 10; j ++) {
+			for (int i = 0; i < guesses[j].length; i++) {
+				if (!(guesses[j][i] == 0)) {
+					display += guesses[j][i] + " ";
+				}
+			}
+			/**	char [][] guesses = {{'Y', 'G', 'B', 'Y'}, {'B', 'B', 'B', 'B'}};
+				char[][] clues = {{ 'b', 'b', 'w', 'w'}, {'b'}};*/
+			System.out.print("\t");
+			for (int i = 0; i < clues[j].length; i ++) {
+				if (!(clues[j][i] == 0)) {
+					display += clues[j][i] + " ";
+				}
+			}
+		}
+		
+	//	System.out.println(display);
+		return display;
+		
 	}
 }
