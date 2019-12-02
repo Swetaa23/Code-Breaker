@@ -11,6 +11,9 @@ public class MyOwnCodeBreaker {
 		final String VALID_CHARS = "GRBYOP";
 		final int SIZE = 4;
 		final int TRIES = 10;
+		char [][] clues2 = {{'b','w'},{'b','b'}};
+    	char[][] guesses2 = {{'G','B','Y','Y'},{'R','B','Y','Y'}};
+    	System.out.println(displayGame(guesses2, clues2));
 		char[] code = new char[SIZE];
 		code = createCode(VALID_CHARS, SIZE);
 		char[] guess = new char[SIZE];
@@ -34,9 +37,6 @@ public class MyOwnCodeBreaker {
 			if(guessStr.length() == SIZE){  //for if the guess is fully correct
 				for(int i = 0; i < SIZE; i++){
 					guess[i] = guessStr.charAt(i);
-					
-					guessDisplay[tryCount][i] = guessStr.charAt(i);
-					System.out.println("guessDisp " + guessDisplay[tryCount][i]);
 					//System.out.print("Guess: " + new String(guess[tryCount]));
 					
 					//guessDisplay[tryCount][SIZE-1] = 'b';
@@ -48,10 +48,15 @@ public class MyOwnCodeBreaker {
 				if((valid(guess, VALID_CHARS, SIZE)) == true){
 					for(int i = 0; i < SIZE; i++) {
 						System.out.println("guess " + guess[i]);
+						
 					}
 					 System.out.println("they used the correct characters (GRBYOP), \nNOT IN CORRECT POS AND/OR THE CORRECT CHARACTERS FROM CODE");
 					 hintLetters = findFullyCorrect(guess, code);
 					 System.out.println("hintLetters " + Arrays.toString(hintLetters));
+					 int i = 0;
+					 guessDisplay[tryCount][i++] = guessStr.charAt(i++);
+					 System.out.println("guessDisp " + guessDisplay[tryCount][i++]);
+					 
 					 
 					 //System.out.println();
 					 hints[tryCount] = hintLetters;
@@ -111,18 +116,10 @@ public class MyOwnCodeBreaker {
 		int counter = 0;
 		int other = 0;
 		String display = "";
-		
-		while(other < 4) {
-			
-			display 
-			= "Guess\t\tClues\n************************\n" + guessDisplay[counter][other] + "\t" +  new String(hints[counter]);
-			
-			System.out.println(display);
-			other++;	
-		}
-		
-		counter++;
+		String guessStr = String.valueOf(guessDisplay[counter][other]);
+		display = "Guess\t\tClues\n************************\n" + guessStr + "\t" +  new String(hints[counter]);	
 		System.out.println(display);
+		counter++;
 		return display;
 	}
 	
