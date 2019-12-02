@@ -13,36 +13,38 @@ public class CodeBreaker {
 		final int LENGTH = 4;
 		final int TRIES = 10; 
 		char[] colourCode = createCode(COLOURS,LENGTH);
-		
-		/*System.out.println("Please enter your guess of length " + LENGTH +  " using the letters " + COLOURS + ":");
-		String guess1 = console.nextLine();
-		char[] guess = new char[guess1.length()];
-		for (int i = 0; i < guess1.length(); i++) {
-			guess[i] = guess1.charAt(i);
-		}
-		System.out.println();
-*/
-		//char[][] guesses = new char[TRIES][guess1.length()];
-		//char[][] clues = new char[TRIES][guess1.length()];
-		char [][] guesses = {{'Y', 'G', 'B', 'Y'}, {'B', 'B', 'B', 'B'}};
-		char[][] clues = {{ 'b', 'b', 'w', 'w'}, {'b'}};
-		System.out.print(displayGame(guesses, clues));
 
-		/*int guessCounter = 0;
-		int cluesCounter = 0;
-		while (valid(guess, COLOURS, LENGTH) && guessCounter <= 10) {
-			for (int i = 0; i < LENGTH; i ++) {
-				guesses[guessCounter][i] = guess1.charAt(i);
+		for (int i = 0; i < TRIES; i ++) {
+			System.out.println("Please enter your guess of length " + LENGTH +  " using the letters " + COLOURS + ":");
+			String guess1 = console.nextLine();
+			char[] guess = new char[guess1.length()];
+			for (int j = 0; j < guess1.length(); j++) {
+				guess[j] = guess1.charAt(j);
 			}
-			clues[cluesCounter] = findFullyCorrect(guess, colourCode);
+			System.out.println();
 			
-			findColourCorrect(guess, colourCode);
-			findFullyCorrect(guess, colourCode);
-			displayGame(guesses,clues);
-			guessCounter += 1;
-			cluesCounter += 1;
-		}*/
-
+			char[][] guesses = new char[TRIES][guess1.length()];
+			char[][] clues = new char[TRIES][guess1.length()];
+			//char [][] clues2 = {{'b','w'},{'b','b'}};
+	    	//char[][] guesses2 = {{'G','B','Y','Y'},{'R','B','Y','Y'}};
+	    	//System.out.println(displayGame(guesses2, clues2));
+			int guessCounter = 0;
+			int cluesCounter = 0;
+			if (valid(guess, COLOURS, LENGTH)) {
+				for (int j = 0 ; j < LENGTH; j++) {
+					guesses[guessCounter][j] = guess[j];
+				}
+				for (int j = 0; j < findFullyCorrect(guess, colourCode).length; j ++) {
+					clues[cluesCounter][j] = findFullyCorrect(guess, colourCode)[j];
+				}
+				for (int j = findFullyCorrect(guess, colourCode).length; j < LENGTH; j ++) {
+					clues[cluesCounter][j] = findColourCorrect(guess, colourCode)[j];
+				}
+				guessCounter += 1;
+				cluesCounter += 1;
+				System.out.println(displayGame(guesses, clues));
+			}
+		}
 	}
 	/**
 	 * Returns a string array containing randomly generated single character from 
@@ -59,7 +61,7 @@ public class CodeBreaker {
 			int randomInt = randomNumber.nextInt(colours.length()); // random number inbetween the length of colours
 			colourCode[i] = colours.charAt(randomInt); // inputs a random value at the given index
 		}
-		for (int i = 0; i < colourCode.length; i++) {
+		for (int i = 0; i < colourCode.length; i++) { // DELETE LATER
 			System.out.print(colourCode[i]);
 		}
 		System.out.println();
@@ -90,7 +92,6 @@ public class CodeBreaker {
 			}  else { // if the values are not the options displayed
 				System.out.println("Please enter your guess again of length " + length +  " using the letters " + colours + ":");
 			}
-			System.out.println(valid);
 		}  else { // if the values are not the options displayed
 			System.out.println("Please enter your guess again of length " + length +  " using the letters " + colours + ":");
 		}
@@ -113,10 +114,6 @@ public class CodeBreaker {
 				j++; // increments counter
 			}
 		}
-		for (int i = 0; i < j; i++) { // DELETE LATER
-			System.out.print(correctPositions[i]);
-		}
-		System.out.println();
 		return correctPositions;
 	}
 	/**
@@ -135,12 +132,18 @@ public class CodeBreaker {
 				j++; // increments counter
 			}
 		}
-		for (int i = 0; i < j; i++) { // DELETE LATER
-			System.out.print(incorrectPositions[i]);
-		}
-		System.out.println();
 		return incorrectPositions;
 	}
+	/**
+	 * Removes (outputs) the valid or invalid characters of the player's guess that are in the wrong 
+	 * position.
+	 * 
+	 * @param guess	 a 2D char array that contains the single characters of the player's guess.
+	 * @param code 	a char array that contains the given code of single characters for the player to guess.
+	 * 
+	 * @return incorrChar  a char array containing the letters that are in the wrong position of the player's
+	 * 						guess.
+	 */
 	public static char[] findColourCorrect(char[] guess, char[] colourCode) {
 		char correctColours[] = new char[colourCode.length]; // new array that hold correct colours
 		int counter = 0; // counter for correctColours array
@@ -155,33 +158,33 @@ public class CodeBreaker {
 				}
 			}
 		}
-		for (int i = 0; i < counter; i++) { // DELETE LATER
-			System.out.print(correctColours[i]);
-		}
-		System.out.println();
 		return correctColours;
 	}
+	/**
+	 * Displays the current state of the game as it's ongoing. 
+	 * 
+	 * @param
+	 * @param
+	 * 
+	 * @return
+	 */
 	public static String displayGame(char[][] guesses, char[][] clues) {
-		String display = "Guess\tClues";
+		String display = "Guess\t\tClues";
 		display += "\n************************\n";
-		for (int j = 0; j < 10; j ++) {
+		for (int j = 0; j < guesses.length; j ++) {
 			for (int i = 0; i < guesses[j].length; i++) {
 				if (!(guesses[j][i] == 0)) {
 					display += guesses[j][i] + " ";
 				}
 			}
-			/**	char [][] guesses = {{'Y', 'G', 'B', 'Y'}, {'B', 'B', 'B', 'B'}};
-				char[][] clues = {{ 'b', 'b', 'w', 'w'}, {'b'}};*/
-			System.out.print("\t");
+			display += "\t";
 			for (int i = 0; i < clues[j].length; i ++) {
 				if (!(clues[j][i] == 0)) {
 					display += clues[j][i] + " ";
 				}
 			}
+			display += "\n";
 		}
-		
-	//	System.out.println(display);
-		return display;
-		
+		return display;	
 	}
 }
