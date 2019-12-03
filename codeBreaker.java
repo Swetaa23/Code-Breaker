@@ -14,23 +14,26 @@ public class codeBreaker {
 		final int TRIES = 10;
 		char[] colourCode = createCode(COLOURS,LENGTH);
 		System.out.println("Welcome to Code Breaker!");
+		
 		System.out.println("Please enter your guess of length " + LENGTH +  " using the letters " + COLOURS + ":");
 		String guess1 = console.nextLine(); // takes user input
-		char[] guess = new char[guess1.length()]; // creats a char array to hold user's guess
+		char[] guess = new char[guess1.length()]; // creates a char array to hold user's guess
 		for (int j = 0; j < guess1.length(); j++) { // goes through the guess
 			guess[j] = guess1.charAt(j); // inputs the characters in the string into a char array
 		}
-		int counter = 0; // number of tries
-		char[][] guesses = new char[TRIES][guess1.length()]; // holds all the guesses
-		char[][] clues = new char[TRIES][guess1.length()]; // holds all the clues
 		String code = new String (colourCode); // converts the colour code into a string
 		while (!(valid(guess, COLOURS, LENGTH))) { // if the guess is not valid keep asking for a new guess
+			System.out.println("Please enter your guess again of length " + LENGTH +  " using the letters " + COLOURS + ":");
 			guess1 = console.nextLine(); // asks for the next guess
+			guess = new char[guess1.length()]; // creates a char array to hold user's guess
 			for (int k = 0; k < guess1.length(); k++) {
 				guess[k] = guess1.charAt(k); // converts the string to the char array
 			}
 		}
-		while (valid(guess, COLOURS, LENGTH) && counter < TRIES) {// checks if the guess is valid and the number of tries is less than the assigned value
+		int counter = 0; // number of tries
+		char[][] guesses = new char[TRIES][LENGTH]; // holds all the guesses
+		char[][] clues = new char[TRIES][LENGTH]; // holds all the clues
+		while (counter < TRIES) {// checks if the guess is valid and the number of tries is less than the assigned value
 			if (guess1.equals(code)) { // checks if the guess is equal to the colour code
 				System.out.println("Congratulations! It took you " + (counter + 1) + " guesses to find the code.");
 				break; // breaks out of the while loop
@@ -55,11 +58,14 @@ public class codeBreaker {
 			System.out.println(displayGame(guesses, clues)); // displays the current state of the game
 			System.out.println("Please enter your guess of length " + LENGTH +  " using the letters " + COLOURS + ":");
 			guess1 = console.nextLine(); // asks for the next guess
+			guess = new char[guess1.length()]; // creates a char array to hold user's guess
 			for (int k = 0; k < guess1.length(); k++) {
 				guess[k] = guess1.charAt(k); // converts the string to the char array
 			}
 			while (!(valid(guess, COLOURS, LENGTH))) { // if the guess is not valid keep asking for a new guess
+				System.out.println("Please enter your guess again of length " + LENGTH +  " using the letters " + COLOURS + ":");
 				guess1 = console.nextLine(); // asks for the next guess
+				guess = new char[guess1.length()]; // creates a char array to hold user's guess
 				for (int k = 0; k < guess1.length(); k++) {
 					guess[k] = guess1.charAt(k); // converts the string to the char array
 				}
@@ -109,11 +115,7 @@ public class codeBreaker {
 			}
 			if (correctValues == length) { // if the number of correct values is equal to the length, then valid becomes true
 				valid = true;
-			}  else { // if the values are not the options displayed
-				System.out.println("Please enter your guess again of length " + length +  " using the letters " + colours + ":");
-			}
-		}  else { // if the values are not the options displayed
-			System.out.println("Please enter your guess again of length " + length +  " using the letters " + colours + ":");
+			} 
 		}
 		return valid;
 	}
