@@ -201,6 +201,7 @@ public class codeBreaker {
 				if (incorrectPositions[i] == incorrectColourPositions[j] && !(incorrectPositions[i] == 0)) { // checks if the values in the guess are in the colour code
 					correctColours[counter] = 'w'; // if condition is passed then, w is added to correctColours
 					counter++; // increment the counter
+					incorrectColourPositions[j] = 0; // removes the value in code, so that no other values match with it
 					break;  // make j the length of colourCode to exit the loop, so that no repeats happen
 				}
 			}
